@@ -1,0 +1,42 @@
+.edit_comment {
+    margin-top: 2em;
+  }
+  
+  .edit_comment h3 {
+    margin-bottom: 1em;
+  }
+  
+  .edit_comment form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .edit_comment label {
+    margin-bottom: 1em;
+  }
+  
+  .edit_comment textarea {
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .edit_comment .btn {
+    background-color: #1a8918;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    width: 120px;
+    font-weight: bold;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1em;
+  }
+  
+  .edit_comment .error {
+    color: red;
+    margin-top: 1em;
+  }
+  
