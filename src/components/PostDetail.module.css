@@ -1,9 +1,10 @@
 .post_detail {
-    margin-bottom: 2em
+    margin-bottom: 2em;
 }
 
-.post_detail img {
-    max-width: 600px;
+.post_image {
+    max-width: 100%;
+    cursor: pointer;
 }
 
 .post_detail h2 {

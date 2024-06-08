@@ -63,7 +63,8 @@ const EditPost = () => {
       body,
       tagsArray,
       uid: user.uid,
-      createdBy: user.displayName
+      createdBy: user.displayName,
+      createdAt: post.createdAt // manter a data original de criação
     }
 
     updateDocument(id, data)
@@ -121,7 +122,7 @@ const EditPost = () => {
               <span>Tags:</span>
               <input
                 type="text"
-                name="image"
+                name="tags"
                 required
                 placeholder="Insira as tags separadas por vírgula"
                 onChange={(e) => setTags(e.target.value)}
