@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
 import { useAuthentication } from "../hooks/useAuthentication";
 import { useAuthValue } from "../contexts/AuthContext";
 import styles from "./Navbar.module.css";
@@ -6,6 +7,11 @@ import styles from "./Navbar.module.css";
 const Navbar = () => {
   const { logout } = useAuthentication();
   const { user } = useAuthValue();
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
 
   return (
     <nav className={styles.navbar}>
@@ -49,11 +55,13 @@ const Navbar = () => {
                 Sobre
               </NavLink>
             </li>
-            <li>
+            <li className={styles.profile_container} onClick={toggleDropdown}>
               <img src={user.photoURL} alt={user.displayName} className={styles.profile_image} />
-            </li>
-            <li>
-              <button onClick={logout}>Sair</button>
+              {dropdownVisible && (
+                <div className={styles.dropdown_menu}>
+                  <button className={styles.logout_button} onClick={logout}>Sair</button>
+                </div>
+              )}
             </li>
           </>
         )}

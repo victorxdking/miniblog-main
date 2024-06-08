@@ -38,3 +38,30 @@
   width: 30px;
   height: 30px;
 }
+
+.profile_container {
+  position: relative;
+  cursor: pointer;
+}
+
+.dropdown_menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.logout_button {
+  background: red;
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  cursor: pointer;
+}
