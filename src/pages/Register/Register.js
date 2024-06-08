@@ -1,43 +1,63 @@
-import styles from "./Register.module.css";
-
-import { useEffect, useState } from "react";
-import { useAuthentication } from "../../hooks/useAuthentication";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { auth, storage, db } from '../../firebase/config';
+import { collection, addDoc } from 'firebase/firestore';
+import styles from './Register.module.css';
 
 const Register = () => {
-  const [displayName, setDisplayName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [displayName, setDisplayName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [profileImage, setProfileImage] = useState(null);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const { createUser, error: authError, loading } = useAuthentication();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    setError("");
-
-    const user = {
-      displayName,
-      email,
-      password,
-    };
+    setError('');
+    setLoading(true);
 
     if (password !== confirmPassword) {
-      setError("As senhas precisam ser iguais.");
+      setError('As senhas precisam ser iguais.');
+      setLoading(false);
       return;
     }
 
-    const res = await createUser(user);
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      let photoURL = '';
 
-    console.log(res);
-  };
+      if (profileImage) {
+        const imageRef = ref(storage, `profileImages/${res.user.uid}`);
+        await uploadBytes(imageRef, profileImage);
+        photoURL = await getDownloadURL(imageRef);
+      }
 
-  useEffect(() => {
-    if (authError) {
-      setError(authError);
+      await updateProfile(res.user, {
+        displayName,
+        photoURL,
+      });
+
+      await addDoc(collection(db, 'users'), {
+        uid: res.user.uid,
+        displayName,
+        email,
+        photoURL,
+      });
+
+      navigate('/');
+    } catch (error) {
+      console.error('Erro ao criar usuário: ', error);
+      setError('Erro ao criar usuário. Tente novamente.');
+    } finally {
+      setLoading(false);
     }
-  }, [authError]);
+  };
 
   return (
     <div className={styles.register}>
@@ -86,6 +106,14 @@ const Register = () => {
             placeholder="Confirme a senha"
             onChange={(e) => setConfirmPassword(e.target.value)}
             value={confirmPassword}
+          />
+        </label>
+        <label>
+          <span>Foto de perfil:</span>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setProfileImage(e.target.files[0])}
           />
         </label>
         {!loading && <button className="btn">Entrar</button>}
