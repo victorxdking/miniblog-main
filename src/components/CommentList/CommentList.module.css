@@ -59,3 +59,20 @@
 .btn_delete:hover {
   background-color: #c82333;
 }
+
+.btn_update {
+  background-color: #1a8918;
+}
+
+.btn_cancel {
+  background-color: #6c757d;
+}
+
+.edit_textarea {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+  margin-bottom: 10px;
+}
