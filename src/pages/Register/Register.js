@@ -116,7 +116,7 @@ const Register = () => {
             onChange={(e) => setProfileImage(e.target.files[0])}
           />
         </label>
-        {!loading && <button className="btn">Entrar</button>}
+        {!loading && <button className="btn">Cadastrar</button>}
         {loading && (
           <button className="btn" disabled>
             Aguarde...
